@@ -1,0 +1,8 @@
+# Abaikan folder node_modules
+/node_modules
+
+# Abaikan folder output
+/public
+
+# Abaikan file environment
+.env

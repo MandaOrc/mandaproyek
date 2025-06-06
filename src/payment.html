@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran - MandaCloud</title>
+    
+    <link rel="icon" href="https://placehold.co/32x32/8B5CF6/FFFFFF?text=M" type="image/png">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A;
+            color: #E2E8F0;
+        }
+        .payment-card {
+            background-color: #18181B; /* zinc-900 */
+            border: 1px solid #27272A; /* zinc-800 */
+        }
+        .payment-method.active {
+            border-color: #8B5CF6; /* purple-500 */
+            background-color: #3730a31a; /* bg-indigo-900/10 */
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Simple Header for payment page -->
+    <header class="bg-zinc-900/50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-white">
+                Manda<span class="text-purple-400">Cloud</span>
+            </a>
+            <a href="produk.html" class="text-sm text-gray-400 hover:text-white">&larr; Kembali ke Produk</a>
+        </div>
+    </header>
+
+    <main class="flex items-center justify-center min-h-[calc(100vh-68px)] py-12 px-4">
+        <div id="payment-container" class="w-full max-w-2xl mx-auto">
+            
+            <div class="payment-card rounded-2xl p-6 md:p-8">
+                <!-- Countdown Timer -->
+                <div class="text-center mb-6">
+                    <p class="text-gray-400">Selesaikan pembayaran dalam</p>
+                    <div id="timer" class="text-3xl font-bold text-purple-400 tracking-wider">15:00</div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="border-y border-zinc-700 py-4 mb-6">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-lg font-semibold text-white">Ringkasan Pesanan</h2>
+                        <span class="text-xs font-medium bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded-md">Pending</span>
+                    </div>
+                    <div class="mt-4 space-y-2">
+                        <div class="flex justify-between items-center text-gray-300">
+                            <p>Produk:</p>
+                            <p id="product-name" class="font-semibold">Memuat...</p>
+                        </div>
+                        <div class="flex justify-between items-center text-white mt-2">
+                            <p class="font-bold">Total Pembayaran:</p>
+                            <p id="total-price" class="font-bold text-xl">Memuat...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Identity Form -->
+                <div id="identity-form-section">
+                    <h2 class="text-lg font-semibold text-white mb-4">Lengkapi Informasi Akun</h2>
+                    <form id="identity-form" class="space-y-4">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Alamat Email</label>
+                            <input type="email" id="email" required class="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                        <div>
+                            <label for="username" class="block text-sm font-medium text-gray-300 mb-1">Username Panel</label>
+                            <input type="text" id="username" required class="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-300 mb-1">Password Panel</label>
+                            <input type="password" id="password" required class="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-lg transition-colors">
+                            Lanjutkan ke Pembayaran
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Step 2: Payment Method -->
+                <div id="payment-method-section" class="hidden">
+                    <h2 class="text-lg font-semibold text-white mb-4">Pilih Metode Pembayaran</h2>
+                    <div class="space-y-4">
+                       <!-- QRIS -->
+                       <div class="payment-method border-2 border-zinc-700 rounded-lg p-4 cursor-pointer transition-all flex items-center justify-between" data-method="qris">
+                           <p class="font-semibold text-white">QRIS (Semua e-wallet & m-banking)</p>
+                           <img src="https://placehold.co/100x25/18181B/FFFFFF?text=QRIS" alt="[attachment_0](attachment)" class="h-6" />
+                       </div>
+                       <!-- Virtual Account -->
+                        <div class="payment-method border-2 border-zinc-700 rounded-lg p-4 cursor-pointer transition-all flex items-center justify-between" data-method="va">
+                           <p class="font-semibold text-white">Virtual Account</p>
+                           <img src="https://placehold.co/120x25/18181B/FFFFFF?text=Bank+Transfer" alt="[attachment_1](attachment)" class="h-6" />
+                       </div>
+                    </div>
+                    
+                    <!-- Payment Details Display -->
+                    <div id="qris-details" class="hidden text-center mt-6 p-4 bg-zinc-800 rounded-lg">
+                        <p class="text-white mb-2">Scan kode QR di bawah ini untuk membayar</p>
+                        <img src="https://placehold.co/250x250/FFFFFF/0A0A0A?text=KODE+QRIS" alt="[attachment_2](attachment)" class="mx-auto rounded-lg" onerror="this.onerror=null;this.src='https://placehold.co/250x250/000000/FFFFFF?text=Image+Error';">
+                    </div>
+                     <div id="va-details" class="hidden mt-6 p-4 bg-zinc-800 rounded-lg">
+                        <p class="text-white mb-2 text-center">Transfer ke nomor Virtual Account:</p>
+                        <div class="flex items-center justify-between bg-zinc-900 py-3 px-4 rounded-md">
+                            <p class="text-2xl font-mono text-purple-400">8988 1234 5678 9012</p>
+                             <button class="text-sm bg-zinc-700 hover:bg-zinc-600 text-gray-300 px-3 py-1 rounded">Salin</button>
+                        </div>
+                    </div>
+
+                    <button class="mt-6 w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-colors">
+                        Saya Sudah Bayar
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        
+        <!-- Timeout Screen -->
+        <div id="timeout-container" class="hidden w-full max-w-md mx-auto text-center">
+             <div class="payment-card rounded-2xl p-8">
+                <svg class="w-16 h-16 mx-auto text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h2 class="text-2xl font-bold text-white mt-4">Waktu Habis</h2>
+                <p class="text-gray-400 mt-2">Sesi pembayaran Anda telah berakhir. Silakan ulangi pemesanan produk.</p>
+                <a href="produk.html" class="mt-6 inline-block w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-lg transition-colors">
+                    Kembali ke Produk
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const product = urlParams.get('product') || 'Produk Tidak Ditemukan';
+            const price = urlParams.get('price') || '0';
+            const unit = urlParams.get('unit') || 'bln';
+
+            // Populate product details
+            document.getElementById('product-name').textContent = product;
+            const formattedPrice = new Intl.NumberFormat('id-ID').format(price);
+            document.getElementById('total-price').textContent = `Rp ${formattedPrice}/${unit}`;
+
+            // Timer logic
+            const timerDisplay = document.getElementById('timer');
+            const paymentContainer = document.getElementById('payment-container');
+            const timeoutContainer = document.getElementById('timeout-container');
+            let duration = 15 * 60; // 15 minutes in seconds
+
+            const interval = setInterval(() => {
+                const minutes = parseInt(duration / 60, 10);
+                const seconds = parseInt(duration % 60, 10);
+
+                const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
+                const formattedSeconds = seconds < 10 ? "0" + seconds : seconds;
+
+                timerDisplay.textContent = `${formattedMinutes}:${formattedSeconds}`;
+
+                if (--duration < 0) {
+                    clearInterval(interval);
+                    paymentContainer.classList.add('hidden');
+                    timeoutContainer.classList.remove('hidden');
+                }
+            }, 1000);
+
+            // Form handling logic
+            const identityForm = document.getElementById('identity-form');
+            const identitySection = document.getElementById('identity-form-section');
+            const paymentSection = document.getElementById('payment-method-section');
+            
+            identityForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // simple validation
+                if (document.getElementById('email').value && document.getElementById('username').value && document.getElementById('password').value) {
+                    identitySection.classList.add('hidden');
+                    paymentSection.classList.remove('hidden');
+                } else {
+                    alert('Harap isi semua informasi akun.');
+                }
+            });
+
+            // Payment method selection logic
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const qrisDetails = document.getElementById('qris-details');
+            const vaDetails = document.getElementById('va-details');
+
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', () => {
+                    // Reset all methods
+                    paymentMethods.forEach(m => m.classList.remove('active'));
+                    qrisDetails.classList.add('hidden');
+                    vaDetails.classList.add('hidden');
+                    
+                    // Activate clicked method
+                    method.classList.add('active');
+                    const selectedMethod = method.getAttribute('data-method');
+                    
+                    if (selectedMethod === 'qris') {
+                        qrisDetails.classList.remove('hidden');
+                    } else if (selectedMethod === 'va') {
+                        vaDetails.classList.remove('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
