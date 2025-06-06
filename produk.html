@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produk - MandaCloud</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://placehold.co/32x32/8B5CF6/FFFFFF?text=M" type="image/png">
+
+    <!-- Tailwind CSS v4 (Browser Build) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS for theme -->
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A;
+            color: #E2E8F0;
+        }
+        .brand-gradient-text {
+            background: linear-gradient(90deg, #A78BFA, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        /* Style for active tab */
+        .tab-active {
+            color: #FFFFFF;
+            background-color: #7C3AED;
+        }
+        /* Transition for product cards */
+        .product-card {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: scale(1);
+        }
+        .product-card.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            position: absolute; /* Use absolute to prevent layout jumps */
+            z-index: -1;
+            pointer-events: none;
+        }
+        #product-grid {
+            position: relative; /* Container for absolute positioned cards */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-black/50 backdrop-blur-lg sticky top-0 left-0 right-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="index.html" class="text-2xl font-bold text-white">
+                    Manda<span class="text-purple-400">Cloud</span>
+                </a>
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html#fitur" class="text-gray-300 hover:text-white transition-colors">Fitur</a>
+                    <a href="produk.html" class="font-bold text-white">Produk</a>
+                    <a href="index.html#blog" class="text-gray-300 hover:text-white transition-colors">Blog</a>
+                    <a href="index.html#kontak" class="text-gray-300 hover:text-white transition-colors">Kontak</a>
+                </nav>
+                <!-- Action Buttons -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors">Masuk</a>
+                    <a href="#" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors">Daftar Gratis</a>
+                </div>
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-zinc-900">
+             <nav class="flex flex-col items-center space-y-4 p-6">
+                <a href="index.html#fitur" class="text-gray-300 hover:text-white transition-colors">Fitur</a>
+                <a href="produk.html" class="font-bold text-white">Produk</a>
+                <a href="index.html#blog" class="text-gray-300 hover:text-white transition-colors">Blog</a>
+                <a href="index.html#kontak" class="text-gray-300 hover:text-white transition-colors">Kontak</a>
+                <hr class="w-full border-gray-700 my-2"/>
+                <a href="#" class="text-gray-300 hover:text-white transition-colors">Masuk</a>
+                <a href="#" class="w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors">Daftar Gratis</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16 md:py-24">
+        <!-- Page Title -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white">Produk & Layanan Kami</h1>
+            <p class="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">Temukan solusi performa tinggi yang dirancang untuk mempercepat proyek Anda.</p>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-12" id="product-tabs">
+            <button data-filter="all" class="tab-filter tab-active px-4 py-2 font-semibold rounded-lg transition-colors duration-200">Semua</button>
+            <button data-filter="vps" class="tab-filter text-gray-400 hover:bg-zinc-800 hover:text-white px-4 py-2 font-semibold rounded-lg transition-colors duration-200">VPS</button>
+            <button data-filter="pterodactyl" class="tab-filter text-gray-400 hover:bg-zinc-800 hover:text-white px-4 py-2 font-semibold rounded-lg transition-colors duration-200">Panel Pterodactyl</button>
+            <button data-filter="domain" class="tab-filter text-gray-400 hover:bg-zinc-800 hover:text-white px-4 py-2 font-semibold rounded-lg transition-colors duration-200">Domain</button>
+            <button data-filter="rdp" class="tab-filter text-gray-400 hover:bg-zinc-800 hover:text-white px-4 py-2 font-semibold rounded-lg transition-colors duration-200">RDP</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- VPS Products -->
+            <div class="product-card flex flex-col bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden" data-category="vps">
+                <img src="https://placehold.co/600x400/1E1B2E/A78BFA?text=VPS+Basic" alt="[attachment_0](attachment)" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/FFFFFF?text=Image+Error';">
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-bold text-white mb-2">VPS Basic</h3>
+                    <p class="text-gray-400 mb-4 flex-grow">Ideal untuk website personal atau proyek skala kecil.</p>
+                    <ul class="space-y-2 text-gray-300 mb-6">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3"></path></svg>1 vCPU Core</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>2 GB RAM</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>50 GB NVMe SSD</li>
+                    </ul>
+                    <p class="text-2xl font-bold text-white mb-4">Rp 75.000<span class="text-base font-medium text-gray-400">/bln</span></p>
+                    <a href="payment.html?product=VPS%20Basic&price=75000&unit=bln" class="mt-auto w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">Checkout</a>
+                </div>
+            </div>
+
+            <div class="product-card flex flex-col bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden" data-category="vps">
+                <img src="https://placehold.co/600x400/1E1B2E/8B5CF6?text=VPS+Pro" alt="[attachment_0](attachment)" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/FFFFFF?text=Image+Error';">
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-bold text-white mb-2">VPS Pro</h3>
+                    <p class="text-gray-400 mb-4 flex-grow">Performa lebih untuk aplikasi dan website yang berkembang.</p>
+                     <ul class="space-y-2 text-gray-300 mb-6">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3"></path></svg>2 vCPU Core</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>4 GB RAM</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>100 GB NVMe SSD</li>
+                    </ul>
+                    <p class="text-2xl font-bold text-white mb-4">Rp 150.000<span class="text-base font-medium text-gray-400">/bln</span></p>
+                    <a href="payment.html?product=VPS%20Pro&price=150000&unit=bln" class="mt-auto w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">Checkout</a>
+                </div>
+            </div>
+
+            <!-- Pterodactyl Products -->
+            <div class="product-card flex flex-col bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden" data-category="pterodactyl">
+                <img src="https://placehold.co/600x400/27272A/C4B5FD?text=Ptero+Game" alt="[attachment_2](attachment)" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/FFFFFF?text=Image+Error';">
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-bold text-white mb-2">Pterodactyl Game Host</h3>
+                    <p class="text-gray-400 mb-4 flex-grow">Hosting game server Minecraft, Valheim, dll. dengan mudah.</p>
+                     <ul class="space-y-2 text-gray-300 mb-6">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3"></path></svg>4 vCPU (High Freq)</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>8 GB RAM DDR4</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6.364-8.364l-1.414-1.414M20.364 6.636L19 5.272M4.929 19.071l1.414-1.414M18.364 19.071l-1.414-1.414M12 21a9 9 0 100-18 9 9 0 000 18z"></path></svg>Anti-DDoS Protection</li>
+                    </ul>
+                    <p class="text-2xl font-bold text-white mb-4">Rp 120.000<span class="text-base font-medium text-gray-400">/bln</span></p>
+                    <a href="payment.html?product=Pterodactyl%20Game%20Host&price=120000&unit=bln" class="mt-auto w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">Checkout</a>
+                </div>
+            </div>
+
+             <!-- RDP Products -->
+            <div class="product-card flex flex-col bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden" data-category="rdp">
+                <img src="https://placehold.co/600x400/18181B/A78BFA?text=RDP+Personal" alt="[attachment_3](attachment)" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/FFFFFF?text=Image+Error';">
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-bold text-white mb-2">RDP Personal</h3>
+                    <p class="text-gray-400 mb-4 flex-grow">Akses desktop Windows jarak jauh untuk kebutuhan personal.</p>
+                     <ul class="space-y-2 text-gray-300 mb-6">
+                        <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Akses 24/7</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>4 GB RAM</li>
+                        <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.793V21H3V3h8.207L12 3.793l1.793-1.793L15 3h6v6l-1.207.793-1.793-1.793L17.207 9H16v1.207l-1.793 1.793L15 12.793z"></path></svg>Windows Server 2019</li>
+                    </ul>
+                    <p class="text-2xl font-bold text-white mb-4">Rp 99.000<span class="text-base font-medium text-gray-400">/bln</span></p>
+                    <a href="payment.html?product=RDP%20Personal&price=99000&unit=bln" class="mt-auto w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">Checkout</a>
+                </div>
+            </div>
+
+            <!-- Domain Products -->
+            <div class="product-card flex flex-col bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden" data-category="domain">
+                <img src="https://placehold.co/600x400/1E1B2E/8B5CF6?text=Domain+.COM" alt="[attachment_4](attachment)" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/FFFFFF?text=Image+Error';">
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-bold text-white mb-2">Domain .COM</h3>
+                    <p class="text-gray-400 mb-4 flex-grow">Domain paling populer dan diakui secara global.</p>
+                     <ul class="space-y-2 text-gray-300 mb-6">
+                       <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>Ekstensi Global</li>
+                       <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>Gratis Proteksi Privasi</li>
+                    </ul>
+                    <p class="text-2xl font-bold text-white mb-4">Rp 165.000<span class="text-base font-medium text-gray-400">/thn</span></p>
+                    <a href="payment.html?product=Domain%20.COM&price=165000&unit=thn" class="mt-auto w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">Checkout</a>
+                </div>
+            </div>
+            
+            <div class="product-card flex flex-col bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden" data-category="domain">
+                <img src="https://placehold.co/600x400/27272A/C4B5FD?text=Domain+.ID" alt="[attachment_4](attachment)" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/FFFFFF?text=Image+Error';">
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-bold text-white mb-2">Domain .ID</h3>
+                    <p class="text-gray-400 mb-4 flex-grow">Tunjukkan identitas Indonesia Anda di dunia digital.</p>
+                     <ul class="space-y-2 text-gray-300 mb-6">
+                       <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>Identitas Indonesia</li>
+                       <li class="flex items-center"><svg class="w-5 h-5 text-purple-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>Gratis Proteksi Privasi</li>
+                    </ul>
+                    <p class="text-2xl font-bold text-white mb-4">Rp 250.000<span class="text-base font-medium text-gray-400">/thn</span></p>
+                    <a href="payment.html?product=Domain%20.ID&price=250000&unit=thn" class="mt-auto w-full text-center bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">Checkout</a>
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Product filtering
+            const tabs = document.querySelectorAll('.tab-filter');
+            const productCards = document.querySelectorAll('.product-card');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(item => item.classList.remove('tab-active', 'text-white', 'bg-purple-600'));
+                    tabs.forEach(item => item.classList.add('text-gray-400', 'hover:bg-zinc-800', 'hover:text-white'));
+                    
+                    tab.classList.add('tab-active', 'text-white', 'bg-purple-600');
+                    tab.classList.remove('text-gray-400', 'hover:bg-zinc-800', 'hover:text-white');
+
+                    const filter = tab.getAttribute('data-filter');
+
+                    productCards.forEach(card => {
+                        const category = card.getAttribute('data-category');
+                        card.style.position = 'absolute'; // Keep elements from jumping
+                        if (filter === 'all' || filter === category) {
+                            card.style.position = 'relative';
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+            // Trigger a click on 'all' to fix layout on load
+            document.querySelector('.tab-filter[data-filter="all"]').click();
+        });
+    </script>
+</body>
+</html>
